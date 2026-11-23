@@ -141,3 +141,27 @@ app.get('/api/books/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+app.post('/api/books', async (req, res, next) => {
+  try {
+    const { data, error } = validateBookInput(req.body, false);
+    if (error) {
+      return res.status(400).json({ error });
+    }
+
+    const mergedCheck = validateMergedBook(data);
+    if (mergedCheck.error) {
+      return res.status(400).json({ error: mergedCheck.error });
+    }
+
+    const duplicate = await isDuplicate(data.title, data.author);
+    if (duplicate) {
+      return res.status(409).json({ error: 'A book with this title and author already exists' });
+    }
+
+    const created = await createBook(data);
+    res.status(201).location(`/api/books/${created.id}`).json(created);
+  } catch (err) {
+    next(err);
+  }
+});
