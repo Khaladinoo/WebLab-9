@@ -48,3 +48,15 @@ export function validateBookInput(body, isPatch = false) {
   } else if (!isPatch) {
     clean.read = false;
   }
+
+  if (body.rating !== undefined) {
+    if (body.rating !== null && (typeof body.rating !== 'number' || !Number.isInteger(body.rating) || body.rating < 1 || body.rating > 5)) {
+      return { error: 'Rating must be an integer between 1 and 5, or null' };
+    }
+    clean.rating = body.rating;
+  } else if (!isPatch) {
+    clean.rating = null;
+  }
+
+  return { data: clean };
+}
