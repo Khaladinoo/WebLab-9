@@ -49,3 +49,10 @@ export function createBookApi(bookData) {
     body: bookData
   });
 }
+
+export function replaceBookApi(id, bookData) {
+  return request(`/api/books/${id}`, {
+    method: 'PUT',
+    body: bookData
+  });
+}
