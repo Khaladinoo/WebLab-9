@@ -199,3 +199,25 @@ app.put('/api/books/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+app.patch('/api/books/:id', async (req, res, next) => {
+  try {
+    const id = parsePositiveId(req.params.id);
+    if (!id) {
+      return res.status(400).json({ error: 'Invalid book ID' });
+    }
+
+    const existing = await getBookById(id);
+    if (!existing) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    const { data, error } = validateBookInput(req.body, true);
+    if (error) {
+      return res.status(400).json({ error });
+    }
+
+    const merged = {
+      ...existing,
+      ...data
+    };
