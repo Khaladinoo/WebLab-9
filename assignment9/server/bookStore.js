@@ -48,3 +48,22 @@ export async function createBook(bookData) {
   books = [...books, newBook];
   return { ...newBook };
 }
+
+export async function replaceBook(id, bookData) {
+  await delay();
+  const exists = books.some((b) => b.id === id);
+  if (!exists) return null;
+
+  const updated = {
+    id,
+    title: bookData.title,
+    author: bookData.author,
+    year: bookData.year,
+    genre: bookData.genre,
+    read: bookData.read ?? false,
+    rating: bookData.rating ?? null
+  };
+
+  books = books.map((b) => (b.id === id ? updated : b));
+  return { ...updated };
+}
