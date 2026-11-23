@@ -76,3 +76,10 @@ export async function updateBookPartial(id, mergedBook) {
   books = books.map((b) => (b.id === id ? { ...mergedBook } : b));
   return { ...mergedBook };
 }
+
+export async function deleteBook(id) {
+  await delay();
+  const initialLength = books.length;
+  books = books.filter((b) => b.id !== id);
+  return books.length < initialLength;
+}
