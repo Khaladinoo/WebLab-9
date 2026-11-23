@@ -290,3 +290,7 @@ app.get('/api/stats', async (req, res, next) => {
     next(err);
   }
 });
+
+app.use('/api', (req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
