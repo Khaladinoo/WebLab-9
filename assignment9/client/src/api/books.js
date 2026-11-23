@@ -26,3 +26,15 @@ async function request(path, options = {}) {
 
   return data;
 }
+
+export function fetchBooks(params = {}, signal) {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== '' && value !== 'all') {
+      searchParams.set(key, String(value));
+    }
+  });
+  const queryString = searchParams.toString();
+  const path = queryString ? `/api/books?${queryString}` : '/api/books';
+  return request(path, { signal });
+}
