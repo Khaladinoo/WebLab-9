@@ -60,3 +60,10 @@ export function validateBookInput(body, isPatch = false) {
 
   return { data: clean };
 }
+
+export function validateMergedBook(book) {
+  if (!book.read && book.rating !== null) {
+    return { error: 'Rating is allowed only when read is true' };
+  }
+  return { data: book };
+}
