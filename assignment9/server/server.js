@@ -124,3 +124,20 @@ app.get('/api/books', async (req, res, next) => {
     next(err);
   }
 });
+app.get('/api/books/:id', async (req, res, next) => {
+  try {
+    const id = parsePositiveId(req.params.id);
+    if (!id) {
+      return res.status(400).json({ error: 'Invalid book ID' });
+    }
+
+    const book = await getBookById(id);
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    res.json(book);
+  } catch (err) {
+    next(err);
+  }
+});
