@@ -98,3 +98,20 @@ app.get('/api/books', async (req, res, next) => {
           b.author.toLowerCase().includes(queryLower)
       );
     }
+
+    const sortDir = order === 'desc' ? -1 : 1;
+    const sorted = [...result].sort((a, b) => {
+      if (!sort) {
+        return (a.id - b.id) * sortDir;
+      }
+      if (sort === 'rating') {
+        if (a.rating === null && b.rating === null) return 0;
+        if (a.rating === null) return 1;
+        if (b.rating === null) return -1;
+        return (a.rating - b.rating) * sortDir;
+      }
+      if (sort === 'year') {
+        return (a.year - b.year) * sortDir;
+      }
+      return a[sort].localeCompare(b[sort]) * sortDir;
+    });
