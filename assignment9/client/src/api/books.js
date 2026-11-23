@@ -42,3 +42,10 @@ export function fetchBooks(params = {}, signal) {
 export function fetchStats(signal) {
   return request('/api/stats', { signal });
 }
+
+export function createBookApi(bookData) {
+  return request('/api/books', {
+    method: 'POST',
+    body: bookData
+  });
+}
