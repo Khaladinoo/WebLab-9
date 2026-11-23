@@ -294,3 +294,8 @@ app.get('/api/stats', async (req, res, next) => {
 app.use('/api', (req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: 'Something went wrong' });
+});
