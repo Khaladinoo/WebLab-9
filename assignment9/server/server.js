@@ -260,3 +260,33 @@ app.delete('/api/books/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+app.get('/api/stats', async (req, res, next) => {
+  try {
+    const all = await getAllBooks();
+    const total = all.length;
+    const read = all.filter((b) => b.read).length;
+    const unread = total - read;
+
+    const ratedBooks = all.filter((b) => b.rating !== null);
+    const averageRating =
+      ratedBooks.length > 0
+        ? Number((ratedBooks.reduce((sum, b) => sum + b.rating, 0) / ratedBooks.length).toFixed(1))
+        : null;
+
+    const byGenre = {};
+    for (const book of all) {
+      byGenre[book.genre] = (byGenre[book.genre] || 0) + 1;
+    }
+
+    res.json({
+      total,
+      read,
+      unread,
+      averageRating,
+      byGenre
+    });
+  } catch (err) {
+    next(err);
+  }
+});
