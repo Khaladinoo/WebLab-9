@@ -18,4 +18,12 @@ export function validateBookInput(body, isPatch = false) {
     }
     clean.title = trimmed;
   }
+
+  if(!isPatch || body.author !== undefined){
+    if(typeof body.author !== 'string'){
+        return {error: 'Author must be between 1 and 100 characters'};
+    }
+    clean.author = trimmed;
+  }
+
   
