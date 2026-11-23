@@ -84,4 +84,8 @@ app.get('/api/books', async (req, res, next) => {
     if (genre !== undefined) {
       result = result.filter((b) => b.genre === genre);
     }
-    
+
+    if (read !== undefined) {
+      const boolRead = read === 'true';
+      result = result.filter((b) => b.read === boolRead);
+    }
