@@ -26,4 +26,9 @@ export function validateBookInput(body, isPatch = false) {
     clean.author = trimmed;
   }
 
-  
+  if (!isPatch || body.year !== undefined) {
+    if (typeof body.year !== 'number' || !Number.isInteger(body.year) || body.year < 1000 || body.year > CURRENT_YEAR) {
+      return { error: `Year must be an integer between 1000 and ${CURRENT_YEAR}` };
+    }
+    clean.year = body.year;
+  }
