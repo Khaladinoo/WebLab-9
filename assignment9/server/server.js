@@ -221,3 +221,24 @@ app.patch('/api/books/:id', async (req, res, next) => {
       ...existing,
       ...data
     };
+
+    if (data.read === false && data.rating === undefined) {
+      merged.rating = null;
+    }
+
+    const mergedCheck = validateMergedBook(merged);
+    if (mergedCheck.error) {
+      return res.status(400).json({ error: mergedCheck.error });
+    }
+
+    const duplicate = await isDuplicate(merged.title, merged.author, id);
+    if (duplicate) {
+      return res.status(409).json({ error: 'A book with this title and author already exists' });
+    }
+
+    const updated = await updateBookPartial(id, merged);
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
