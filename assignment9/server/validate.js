@@ -32,3 +32,10 @@ export function validateBookInput(body, isPatch = false) {
     }
     clean.year = body.year;
   }
+
+  if (!isPatch || body.genre !== undefined) {
+    if (typeof body.genre !== 'string' || !VALID_GENRES.includes(body.genre)) {
+      return { error: `Genre must be one of: ${VALID_GENRES.join(', ')}` };
+    }
+    clean.genre = body.genre;
+  }
