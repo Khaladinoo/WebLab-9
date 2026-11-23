@@ -33,3 +33,18 @@ export async function isDuplicate(title, author, excludeId = null){
         b.author.toLowerCase() === normAuthor
     );
 }
+
+export async function createBook(bookData) {
+    await delay();
+    const newBook = {
+        id: nextId++,
+        title: bookData.title,
+        author: bookData.author,
+    year: bookData.year,
+    genre: bookData.genre,
+    read: bookData.read ?? false,
+    rating: bookData.rating ?? null
+  };
+  books = [...books, newBook];
+  return { ...newBook };
+}
