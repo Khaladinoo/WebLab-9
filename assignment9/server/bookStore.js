@@ -10,3 +10,8 @@ let books = [
 let nextId = 7;
 
 const delay = (ms = 20) => new Promise((resolve) => setTimeout(resolve, ms));
+
+export async function getAllBooks() {
+  await delay();
+  return books.map((book) => ({ ...book }));
+}
