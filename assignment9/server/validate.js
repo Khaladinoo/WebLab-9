@@ -67,3 +67,13 @@ export function validateMergedBook(book) {
   }
   return { data: book };
 }
+
+export function parsePositiveId(rawId) {
+  const num = Number(rawId);
+  if (!Number.isInteger(num) || num <= 0 || String(num) !== String(rawId)) {
+    return null;
+  }
+  return num;
+}
+
+export { VALID_GENRES };
