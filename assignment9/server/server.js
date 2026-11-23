@@ -25,3 +25,4 @@ app.use(
     origin: CLIENT_ORIGIN
   })
 );
+app.use(express.json());
