@@ -8,3 +8,5 @@ let books = [
 ];
 
 let nextId = 7;
+
+const delay = (ms = 20) => new Promise((resolve) => setTimeout(resolve, ms));
