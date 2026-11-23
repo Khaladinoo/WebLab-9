@@ -25,4 +25,12 @@ app.use(
     origin: CLIENT_ORIGIN
   })
 );
+
 app.use(express.json());
+
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ error: 'Malformed JSON in request body' });
+  }
+  next(err);
+});
