@@ -242,3 +242,21 @@ app.patch('/api/books/:id', async (req, res, next) => {
     next(err);
   }
 });
+
+app.delete('/api/books/:id', async (req, res, next) => {
+  try {
+    const id = parsePositiveId(req.params.id);
+    if (!id) {
+      return res.status(400).json({ error: 'Invalid book ID' });
+    }
+
+    const deleted = await deleteBook(id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+});
