@@ -56,3 +56,10 @@ export function replaceBookApi(id, bookData) {
     body: bookData
   });
 }
+
+export function patchBookApi(id, partialData) {
+  return request(`/api/books/${id}`, {
+    method: 'PATCH',
+    body: partialData
+  });
+}
