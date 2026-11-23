@@ -67,3 +67,12 @@ export async function replaceBook(id, bookData) {
   books = books.map((b) => (b.id === id ? updated : b));
   return { ...updated };
 }
+
+export async function updateBookPartial(id, mergedBook) {
+  await delay();
+  const exists = books.some((b) => b.id === id);
+  if (!exists) return null;
+
+  books = books.map((b) => (b.id === id ? { ...mergedBook } : b));
+  return { ...mergedBook };
+}
