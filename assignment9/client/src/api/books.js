@@ -63,3 +63,9 @@ export function patchBookApi(id, partialData) {
     body: partialData
   });
 }
+
+export function deleteBookApi(id) {
+  return request(`/api/books/${id}`, {
+    method: 'DELETE'
+  });
+}
