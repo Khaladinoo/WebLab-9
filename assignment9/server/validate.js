@@ -39,3 +39,12 @@ export function validateBookInput(body, isPatch = false) {
     }
     clean.genre = body.genre;
   }
+
+  if (body.read !== undefined) {
+    if (typeof body.read !== 'boolean') {
+      return { error: 'Read status must be a boolean' };
+    }
+    clean.read = body.read;
+  } else if (!isPatch) {
+    clean.read = false;
+  }
