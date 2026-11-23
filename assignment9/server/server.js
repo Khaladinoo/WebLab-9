@@ -81,4 +81,7 @@ app.get('/api/books', async (req, res, next) => {
 
     let result = await getAllBooks();
 
+    if (genre !== undefined) {
+      result = result.filter((b) => b.genre === genre);
+    }
     
