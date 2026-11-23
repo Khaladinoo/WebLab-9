@@ -115,3 +115,12 @@ app.get('/api/books', async (req, res, next) => {
       }
       return a[sort].localeCompare(b[sort]) * sortDir;
     });
+
+    const startIndex = (parsedPage - 1) * parsedLimit;
+    const paginated = sorted.slice(startIndex, startIndex + parsedLimit);
+
+    res.json(paginated);
+  } catch (err) {
+    next(err);
+  }
+});
