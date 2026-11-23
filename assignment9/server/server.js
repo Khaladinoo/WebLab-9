@@ -89,3 +89,12 @@ app.get('/api/books', async (req, res, next) => {
       const boolRead = read === 'true';
       result = result.filter((b) => b.read === boolRead);
     }
+
+    if (q !== undefined && q.trim() !== '') {
+      const queryLower = q.trim().toLowerCase();
+      result = result.filter(
+        (b) =>
+          b.title.toLowerCase().includes(queryLower) ||
+          b.author.toLowerCase().includes(queryLower)
+      );
+    }
