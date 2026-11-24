@@ -135,4 +135,17 @@ export default function App() {
     setFormData(INITIAL_FORM);
     setActionError('');
   };
+
+  const handleToggleRead = async (book) => {
+    setActionError('');
+    try {
+      const nextRead = !book.read;
+      const patchData = nextRead ? { read: true } : { read: false, rating: null };
+      const updated = await patchBookApi(book.id, patchData);
+      setBooks((prev) => prev.map((b) => (b.id === book.id ? updated : b)));
+      await loadStats();
+    } catch (err) {
+      setActionError(err.message);
+    }
+  };
 }
