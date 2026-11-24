@@ -77,3 +77,12 @@ useEffect(() => {
     loadStats(controller.signal);
     return () => controller.abort();
   }, [loadStats]);
+
+  const refreshAll = async () => {
+    const [freshBooks, freshStats] = await Promise.all([
+      fetchBooks({ q, genre, read: readFilter, sort, order }),
+      fetchStats()
+    ]);
+    setBooks(freshBooks);
+    setStats(freshStats);
+  };
