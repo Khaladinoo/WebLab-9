@@ -40,4 +40,13 @@ const [q, setQ] = useState('');
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState(INITIAL_FORM);   
 
-  
+  const loadStats = useCallback(async (signal) => {
+    try {
+      const data = await fetchStats(signal);
+      setStats(data);
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error(err);
+      }
+    }
+  }, []);
