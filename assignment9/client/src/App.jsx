@@ -129,4 +129,10 @@ export default function App() {
       rating: book.rating ?? ''
     });
   };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setFormData(INITIAL_FORM);
+    setActionError('');
+  };
 }
