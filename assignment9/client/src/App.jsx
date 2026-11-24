@@ -50,7 +50,7 @@ const [q, setQ] = useState('');
       }
     }
   }, []);
-  
+
     useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
@@ -71,3 +71,9 @@ const [q, setQ] = useState('');
     return () => controller.abort();
   }, [q, genre, readFilter, sort, order]);
 }
+
+useEffect(() => {
+    const controller = new AbortController();
+    loadStats(controller.signal);
+    return () => controller.abort();
+  }, [loadStats]);
