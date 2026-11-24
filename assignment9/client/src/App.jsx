@@ -86,3 +86,33 @@ useEffect(() => {
     setBooks(freshBooks);
     setStats(freshStats);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setActionError('');
+    setSubmitting(true);
+
+    const payload = {
+      title: formData.title,
+      author: formData.author,
+      year: Number(formData.year),
+      genre: formData.genre,
+      read: Boolean(formData.read),
+      rating: formData.read && formData.rating !== '' ? Number(formData.rating) : null
+    };
+
+    try {
+      if (editingId) {
+        await replaceBookApi(editingId, payload);
+        setEditingId(null);
+      } else {
+        await createBookApi(payload);
+      }
+      setFormData(INITIAL_FORM);
+      await refreshAll();
+    } catch (err) {
+      setActionError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
