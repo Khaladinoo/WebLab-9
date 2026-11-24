@@ -23,5 +23,10 @@ const INITIAL_FORM = {
 };
 
 export default function App() {
-
+  const [books, setBooks] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [actionError, setActionError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 }
