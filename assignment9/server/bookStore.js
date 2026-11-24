@@ -26,7 +26,7 @@ export async function isDuplicate(title, author, excludeId = null){
     await delay(5);
     const normTitle = title.toLowerCase();
     const normAuthor = author.toLowerCase();
-    return book.some(
+    return books.some(
         (b)=> 
             b.id !== excludeId &&
         b.title.toLowerCase() === normTitle &&
