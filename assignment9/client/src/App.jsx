@@ -31,7 +31,7 @@ export default function App() {
   const [submitting, setSubmitting] = useState(false);
 
 
-const [q, setQ] = useState('');
+  const [q, setQ] = useState('');
   const [genre, setGenre] = useState('all');
   const [readFilter, setReadFilter] = useState('all');
   const [sort, setSort] = useState('');
@@ -70,9 +70,9 @@ const [q, setQ] = useState('');
 
     return () => controller.abort();
   }, [q, genre, readFilter, sort, order]);
-}
 
-useEffect(() => {
+
+ useEffect(() => {
     const controller = new AbortController();
     loadStats(controller.signal);
     return () => controller.abort();
@@ -87,7 +87,7 @@ useEffect(() => {
     setStats(freshStats);
   };
 
-  const handleSubmit = async (e) => {
+   const handleSubmit = async (e) => {
     e.preventDefault();
     setActionError('');
     setSubmitting(true);
@@ -116,3 +116,17 @@ useEffect(() => {
       setSubmitting(false);
     }
   };
+
+  const startEdit = (book) => {
+    setActionError('');
+    setEditingId(book.id);
+    setFormData({
+      title: book.title,
+      author: book.author,
+      year: book.year,
+      genre: book.genre,
+      read: book.read,
+      rating: book.rating ?? ''
+    });
+  };
+}
