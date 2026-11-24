@@ -160,4 +160,94 @@ export default function App() {
       setActionError(err.message);
     }
   };
+
+  const handleDelete = async (id) => {
+    setActionError('');
+    try {
+      await deleteBookApi(id);
+      setBooks((prev) => prev.filter((b) => b.id !== id));
+      await loadStats();
+    } catch (err) {
+      setActionError(err.message);
+    }
+  };
+
+  return (
+    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '1.5rem', fontFamily: 'system-ui, sans-serif' }}>
+      <h1>Reading List</h1>
+
+      {/* Live statistics summary */}
+      <StatsPanel stats={stats} />
+
+      {/* Server-side validation or mutation error banner */}
+      {actionError && (
+        <div style={{ background: '#fee2e2', color: '#b91c1c', padding: '0.75rem', borderRadius: '6px', marginBottom: '1rem' }}>
+          {actionError}
+        </div>
+      )}
+
+      {/* Book creation and editing form */}
+      <BookForm
+        formData={formData}
+        setFormData={setFormData}
+        onSubmit={handleSubmit}
+        editingId={editingId}
+        onCancel={cancelEdit}
+        submitting={submitting}
+        genres={GENRES}
+      />
+
+      {/* Search, filter, and sort controls */}
+      <section style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '1.5rem' }}>
+        <input
+          type="text"
+          placeholder="Search title or author..."
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
+        <select value={genre} onChange={(e) => setGenre(e.target.value)}>
+          <option value="all">All Genres</option>
+          {GENRES.map((g) => (
+            <option key={g} value={g}>{g}</option>
+          ))}
+        </select>
+        <select value={readFilter} onChange={(e) => setReadFilter(e.target.value)}>
+          <option value="all">All Status</option>
+          <option value="true">Read</option>
+          <option value="false">Unread</option>
+        </select>
+        <select value={sort} onChange={(e) => setSort(e.target.value)}>
+          <option value="">Default Sort (ID)</option>
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="year">Year</option>
+          <option value="rating">Rating</option>
+        </select>
+        <select value={order} onChange={(e) => setOrder(e.target.value)}>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </section>
+
+      {/* Loading, error, empty, and populated list states */}
+      {loading && <p>Loading books...</p>}
+      {error && <p style={{ color: '#b91c1c' }}>Error: {error}</p>}
+      {!loading && !error && books.length === 0 && <p>No books found matching your criteria.</p>}
+
+      {!loading && !error && books.length > 0 && (
+        <div style={{ display: 'grid', gap: '0.75rem' }}>
+          {books.map((book) => (
+            <BookItem
+              key={book.id}
+              book={book}
+              onToggleRead={handleToggleRead}
+              onRatingChange={handleRatingChange}
+              onEdit={startEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
