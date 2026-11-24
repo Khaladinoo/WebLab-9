@@ -30,3 +30,9 @@ export default function App() {
   const [actionError, setActionError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 }
+
+const [q, setQ] = useState('');
+  const [genre, setGenre] = useState('all');
+  const [readFilter, setReadFilter] = useState('all');
+  const [sort, setSort] = useState('');
+  const [order, setOrder] = useState('asc');
