@@ -148,4 +148,16 @@ export default function App() {
       setActionError(err.message);
     }
   };
+
+  const handleRatingChange = async (book, newRating) => {
+    setActionError('');
+    try {
+      const ratingValue = newRating === '' ? null : Number(newRating);
+      const updated = await patchBookApi(book.id, { rating: ratingValue });
+      setBooks((prev) => prev.map((b) => (b.id === book.id ? updated : b)));
+      await loadStats();
+    } catch (err) {
+      setActionError(err.message);
+    }
+  };
 }
