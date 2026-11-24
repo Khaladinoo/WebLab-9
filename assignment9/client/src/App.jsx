@@ -29,7 +29,7 @@ export default function App() {
   const [error, setError] = useState('');
   const [actionError, setActionError] = useState('');
   const [submitting, setSubmitting] = useState(false);
-}
+
 
 const [q, setQ] = useState('');
   const [genre, setGenre] = useState('all');
@@ -50,3 +50,24 @@ const [q, setQ] = useState('');
       }
     }
   }, []);
+  
+    useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError('');
+
+    fetchBooks({ q, genre, read: readFilter, sort, order }, controller.signal)
+      .then((data) => {
+        setBooks(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+          setLoading(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, [q, genre, readFilter, sort, order]);
+}
