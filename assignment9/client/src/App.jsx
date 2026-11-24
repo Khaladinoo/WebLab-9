@@ -36,3 +36,8 @@ const [q, setQ] = useState('');
   const [readFilter, setReadFilter] = useState('all');
   const [sort, setSort] = useState('');
   const [order, setOrder] = useState('asc');
+
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState(INITIAL_FORM);   
+
+  
